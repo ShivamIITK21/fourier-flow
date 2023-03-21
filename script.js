@@ -1,3 +1,5 @@
+import { Arrow } from "./arrow.js";
+
 const canvas = document.getElementById('canvas');
 const ctx = canvas.getContext('2d');
 const clear = document.getElementById("clear")
@@ -24,11 +26,11 @@ submit.addEventListener('click', () => {
 clear.addEventListener('click', () => {
   ctx.clearRect(0, 0, canvas.width, canvas.height)
   points = []
+  hasDrawn = false;
 })
 
 function startDrawing(e) {
   if (hasDrawn) return;
-  console.log("yep")
   isDrawing = true;
   let x = e.offsetX;
   let y = e.offsetY;
@@ -38,7 +40,6 @@ function startDrawing(e) {
 }
 
 function drawPoint(e) {
-  console.log("drawing...")
   if (hasDrawn) return;
   if (!isDrawing) return;
   let x = e.offsetX;
@@ -102,9 +103,7 @@ const pointCornertoCenter = (point) => {
   return {x:point.x-400, y:400-point.y}
 }
 
-const pointCentertoCorner = (point) => {
-  return {x:point.x+400, y:point.y-400}
-}
+
 
 //func to check if pt is inside, wrt corner
 const isPointInside = (point) => {
@@ -113,3 +112,6 @@ const isPointInside = (point) => {
   }
   return false;
 }
+
+let a1 = new Arrow(ctx, {x:0, y:0}, 40, 1.0)
+a1.render()
