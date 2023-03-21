@@ -106,8 +106,6 @@ const pointCornertoCenter = (point) => {
   return {x:point.x-400, y:400-point.y}
 }
 
-
-
 //func to check if pt is inside, wrt corner
 const isPointInside = (point) => {
   if((point.x > 0 && point.x < 800) && (point.y > 0 && point.y < 800)){
@@ -116,7 +114,7 @@ const isPointInside = (point) => {
   return false;
 }
 
-let a1 = new Arrow(ctx, {x:0, y:0}, 40, 1.0)
+let a1 = new Arrow(ctx, {x:10, y:32}, 40, 4)
 a1.render()
 
 
