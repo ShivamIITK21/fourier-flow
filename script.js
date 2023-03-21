@@ -46,6 +46,9 @@ function drawPoint(e) {
   let y = e.offsetY;
   points.push({x: x, y: y});
   drawLine(points[points.length-2], points[points.length-1]);
+  // let newpoints = getPoints(points[points.length-2], points[points.length-1])
+  // console.log("These are the new ones", newpoints)
+  // points = points.concat(newpoints)
   // drawPointOnce(x,y);
   console.log(points)
 }
@@ -115,3 +118,5 @@ const isPointInside = (point) => {
 
 let a1 = new Arrow(ctx, {x:0, y:0}, 40, 1.0)
 a1.render()
+
+
