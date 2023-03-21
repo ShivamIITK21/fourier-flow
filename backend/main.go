@@ -2,6 +2,7 @@ package main
 
 import (
 	"encoding/json"
+	"fmt"
 	"net/http"
 
 	"github.com/ShivamIITK21/fourier-flow/fourier"
@@ -15,11 +16,10 @@ type Request struct {
 
 func CORSMiddleware() gin.HandlerFunc {
 	return func(c *gin.Context) {
-
-		c.Header("Access-Control-Allow-Origin", "*")
-		c.Header("Access-Control-Allow-Credentials", "true")
-		c.Header("Access-Control-Allow-Headers", "Content-Type, Content-Length, Accept-Encoding, X-CSRF-Token, Authorization, accept, origin, Cache-Control, X-Requested-With")
-		c.Header("Access-Control-Allow-Methods", "POST,HEAD,PATCH, OPTIONS, GET, PUT")
+		c.Writer.Header().Set("Access-Control-Allow-Origin", "*")
+		c.Writer.Header().Set("Access-Control-Allow-Credentials", "true")
+		c.Writer.Header().Set("Access-Control-Allow-Headers", "Content-Type, Content-Length, Accept-Encoding, X-CSRF-Token, Authorization, accept, origin, Cache-Control, X-Requested-With")
+		c.Writer.Header().Set("Access-Control-Allow-Methods", "POST, OPTIONS, GET, PUT")
 
 		if c.Request.Method == "OPTIONS" {
 			c.AbortWithStatus(204)
@@ -33,6 +33,8 @@ func CORSMiddleware() gin.HandlerFunc {
 func controller() gin.HandlerFunc {
 	return func(c *gin.Context) {
 		var req Request
+
+		fmt.Println("Hello?")
 
 		err := c.BindJSON(&req)
 		if err != nil {
@@ -48,13 +50,21 @@ func controller() gin.HandlerFunc {
 			return
 		}
 
-		c.JSON(http.StatusOK, gin.H{"ok": "ok"})
+		initials := fourier.GetInitialConds(points, req.N)
+
+		initials_str, err := json.Marshal(initials)
+		if err != nil {
+			c.JSON(http.StatusInternalServerError, gin.H{"error": "dunno"})
+			return
+		}
+
+		c.JSON(http.StatusOK, gin.H{"initials": string(initials_str)})
 
 	}
 }
 
 func TransformRoute(incomingRoutes *gin.Engine) {
-	incomingRoutes.GET("transform", controller())
+	incomingRoutes.POST("transform", controller())
 }
 
 func main() {

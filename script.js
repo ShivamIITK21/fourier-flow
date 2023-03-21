@@ -18,9 +18,40 @@ canvas.addEventListener('mousemove', drawPoint);
 canvas.addEventListener('mouseup', stopDrawing);
 canvas.addEventListener('mouseout', stopDrawing);
 
-submit.addEventListener('click', () => {
+submit.addEventListener('click', async () => {
   let newPoints = points.map(point => pointCornertoCenter(point))
   console.log(newPoints)
+
+  const URL = "http://localhost:8080/transform"
+
+  const body = {
+    "points" : JSON.stringify(newPoints),
+    "n" : 20
+  }
+  console.log(body)
+  console.log(JSON.stringify(body))
+
+  const options = {
+    method: "POST",
+      headers: {
+        "Content-Type": "application/json",
+      },
+      body: JSON.stringify(body)
+  }
+
+  try {
+    // Send the fetch request and wait for the response
+    const response = await fetch(URL, options);
+
+    // Parse the response body as JSON
+    const data = await JSON.parse(response.body)
+
+    // Update the data container with the fetched data
+    console.log(data)
+  } catch (error) {
+    console.error(error);
+  }
+
 })
 
 clear.addEventListener('click', () => {
