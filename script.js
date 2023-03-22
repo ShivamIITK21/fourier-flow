@@ -9,6 +9,7 @@ const submit = document.getElementById("submit")
 let isDrawing = false;
 let points = [];
 let hasDrawn = false;
+let stopAnimating = false;
 
 // document.getElementById('canvas').setAttribute("width", document.querySelector('#localVideo').offsetWidth);
 // document.getElementById('canvas').setAttribute("height", document.querySelector('#localVideo').offsetHeigh);
@@ -70,6 +71,7 @@ clear.addEventListener('click', () => {
   ctx.clearRect(0, 0, canvas.width, canvas.height)
   points = []
   hasDrawn = false;
+  stopAnimating = true
 })
 
 function startDrawing(e) {
@@ -160,5 +162,18 @@ const isPointInside = (point) => {
 let a1 = new Arrow(ctx, {x:10, y:32}, 40, -0.7853981633974483)
 a1.render()
 console.log(getAngle({X:1, Y:-1}))
+
+const animate = () => {
+
+  ctx.clearRect(0, 0, canvas.width, canvas.height)
+
+  a1.rotate(2*Math.PI)
+
+  a1.render()
+
+  if(!stopAnimating) requestAnimationFrame(animate)
+}
+
+animate()
 
 
