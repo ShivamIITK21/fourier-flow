@@ -1,5 +1,5 @@
 import { Arrow } from "./arrow.js";
-import { getMagnitude } from "./utils.js";
+import { getMagnitude, getAngle } from "./utils.js";
 
 const canvas = document.getElementById('canvas');
 const ctx = canvas.getContext('2d');
@@ -25,9 +25,11 @@ submit.addEventListener('click', async () => {
 
   const URL = "http://localhost:8080/transform"
 
+  let n = 50
+
   const body = {
     "points" : JSON.stringify(newPoints),
-    "n" : 20
+    "n" : n
   }
   console.log(body)
   console.log(JSON.stringify(body))
@@ -46,6 +48,17 @@ submit.addEventListener('click', async () => {
 
     const initial_conds = JSON.parse(parsed.initials)
     console.log(initial_conds)
+
+    let start_point = {x:0, y:0}
+    let arrows = []
+    initial_conds.forEach(cnum => {
+      let mag = getMagnitude(cnum)
+      let ang = getAngle(cnum)
+      let a = new Arrow(ctx, start_point, mag, ang)
+      a.render()
+      start_point = a.end_point
+      arrows.push(a)
+    });
 
   } catch (error) {
     console.error(error);
@@ -144,7 +157,8 @@ const isPointInside = (point) => {
   return false;
 }
 
-let a1 = new Arrow(ctx, {x:10, y:32}, 40, 4)
+let a1 = new Arrow(ctx, {x:10, y:32}, 40, -0.7853981633974483)
 a1.render()
+console.log(getAngle({X:1, Y:-1}))
 
 

@@ -7,3 +7,7 @@ export const pointCentertoCorner = (point) => {
 export const getMagnitude = (point) => {
     return Math.sqrt(point.X*point.X + point.Y*point.Y)
 }
+
+export const getAngle = (point) => {
+    return Math.atan2(point.Y, point.X)
+}
