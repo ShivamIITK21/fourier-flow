@@ -1,4 +1,5 @@
 import { Arrow } from "./arrow.js";
+import { getMagnitude } from "./utils.js";
 
 const canvas = document.getElementById('canvas');
 const ctx = canvas.getContext('2d');
@@ -40,14 +41,12 @@ submit.addEventListener('click', async () => {
   }
 
   try {
-    // Send the fetch request and wait for the response
     const response = await fetch(URL, options);
+    const parsed = await response.json()
 
-    // Parse the response body as JSON
-    const data = await JSON.parse(response.body)
+    const initial_conds = JSON.parse(parsed.initials)
+    console.log(initial_conds)
 
-    // Update the data container with the fetched data
-    console.log(data)
   } catch (error) {
     console.error(error);
   }
