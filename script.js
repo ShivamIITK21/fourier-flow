@@ -61,6 +61,8 @@ submit.addEventListener('click', async () => {
       arrows.push(a)
     });
 
+    console.log(arrows)
+
   } catch (error) {
     console.error(error);
   }
@@ -159,21 +161,5 @@ const isPointInside = (point) => {
   return false;
 }
 
-let a1 = new Arrow(ctx, {x:10, y:32}, 40, -0.7853981633974483)
-a1.render()
-console.log(getAngle({X:1, Y:-1}))
-
-const animate = () => {
-
-  ctx.clearRect(0, 0, canvas.width, canvas.height)
-
-  a1.rotate(2*Math.PI)
-
-  a1.render()
-
-  if(!stopAnimating) requestAnimationFrame(animate)
-}
-
-animate()
 
 

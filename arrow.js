@@ -20,13 +20,19 @@ export class Arrow{
         let ang = Math.atan2(transformed_end.y - transformed_start.y, transformed_end.x - transformed_start.x);
         this.ctx.strokeStyle = 'white';
         this.ctx.lineWidth = 2;
+
+        let headlength = this.length/4
+        if(headlength > 10){
+            headlength = 10
+        }
+
         this.ctx.beginPath()
         this.ctx.moveTo(transformed_start.x, transformed_start.y)
         this.ctx.lineTo(transformed_end.x, transformed_end.y)
         // this.ctx.moveTo(transformed_end.x, transformed_end.y)
-        this.ctx.lineTo(transformed_end.x - 10 * Math.cos(ang - Math.PI / 6), transformed_end.y - 10 * Math.sin(ang - Math.PI / 6))
+        this.ctx.lineTo(transformed_end.x - headlength * Math.cos(ang - Math.PI / 6), transformed_end.y - headlength * Math.sin(ang - Math.PI / 6))
         this.ctx.moveTo(transformed_end.x, transformed_end.y)
-        this.ctx.lineTo(transformed_end.x - 10 * Math.cos(ang + Math.PI / 6), transformed_end.y - 10 * Math.sin(ang + Math.PI / 6))
+        this.ctx.lineTo(transformed_end.x - headlength * Math.cos(ang + Math.PI / 6), transformed_end.y - headlength * Math.sin(ang + Math.PI / 6))
         this.ctx.stroke()
     }
 
