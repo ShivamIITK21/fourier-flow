@@ -23,6 +23,9 @@ canvas.addEventListener('mouseout', stopDrawing);
 submit.addEventListener('click', async () => {
   let newPoints = points.map(point => pointCornertoCenter(point))
   console.log(newPoints)
+  stopAnimating = false
+  // let drawnPoints = []
+
 
   const URL = "http://localhost:8080/transform"
 
@@ -52,8 +55,10 @@ submit.addEventListener('click', async () => {
 
     let start_point = {x:0, y:0}
     let arrows = []
+    let blacklist = []
     initial_conds.forEach(cnum => {
       let mag = getMagnitude(cnum)
+      console.log(mag)
       let ang = getAngle(cnum)
       let a = new Arrow(ctx, start_point, mag, ang)
       a.render()
@@ -62,6 +67,7 @@ submit.addEventListener('click', async () => {
     });
 
     console.log(arrows)
+    animate(arrows, n)
 
   } catch (error) {
     console.error(error);
@@ -79,6 +85,7 @@ clear.addEventListener('click', () => {
 function startDrawing(e) {
   if (hasDrawn) return;
   isDrawing = true;
+  stopAnimating = false
   let x = e.offsetX;
   let y = e.offsetY;
   console.log(x,y)
@@ -162,4 +169,19 @@ const isPointInside = (point) => {
 }
 
 
+const animate = (arrows, n) => {
+  ctx.clearRect(0, 0, canvas.width, canvas.height)
+  let start_point = {x:0, y:0}
+  let freq = -1*((n - n%2)/2)
+
+  Array.from(arrows).forEach((arrow) => {
+    arrow.rotate(2*Math.PI*freq)
+    arrow.start_point = start_point
+    arrow.render()
+    start_point = arrow.end_point
+    freq++
+  })
+
+  if (!stopAnimating) requestAnimationFrame(animate.bind(null, arrows, n))
+}
 
