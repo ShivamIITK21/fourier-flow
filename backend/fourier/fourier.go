@@ -30,6 +30,10 @@ func nthFourierCoeff(points []Point, n int) Point {
 	var ret Point
 	ret.X = xval / float64(len(points))
 	ret.Y = yval / float64(len(points))
-
+	
+	if ret.X*ret.X + ret.Y*ret.Y < 2 {
+		ret.X = 0;
+		ret.Y = 0;
+	}
 	return ret
 }

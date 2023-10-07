@@ -29,7 +29,7 @@ submit.addEventListener('click', async () => {
 
   const URL = "http://localhost:8080/transform"
 
-  let n = 50
+  let n = 200
 
   const body = {
     "points" : JSON.stringify(newPoints),
